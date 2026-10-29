@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Database & Monitoring PERSEBA Baratsawah</title>
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-dark: #166534;
+      --primary-light: #dcfce7;
+      --accent: #d97706;
+      --accent-light: #fef3c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 3rem;
+    }
+
+    /* TOP NAVBAR */
+    .navbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), #166534);
+      color: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 8px rgba(21, 128, 61, 0.3);
+    }
+    .brand-text h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    .btn-outline {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .btn-accent:hover {
+      background: #b45309;
+    }
+    .btn-sm {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1200px;
+      margin: 1.5rem auto 0;
+      padding: 0 1.25rem;
+    }
+
+    /* BANNER */
+    .hero-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #15803d 50%, #047857 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(21, 128, 61, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      backdrop-filter: blur(4px);
+    }
+    .hero-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+    .hero-desc {
+      font-size: 0.88rem;
+      opacity: 0.9;
+      max-width: 650px;
+    }
+
+    /* KPI STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .stat-icon.green {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .stat-icon.amber {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+    .stat-icon.blue {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+    .stat-icon.purple {
+      background: #f3e8ff;
+      color: #7e22ce;
+    }
+    .stat-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* SECTION CARD */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .section-header {
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      background: #fafafa;
+    }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-body {
+      padding: 1.25rem;
+    }
+
+    /* TABLE */
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    th {
+      background: #f8fafc;
+      padding: 0.75rem 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    /* STATUS BADGES */
+    .badge-status {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.725rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    .status-baru {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .status-dibaca {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .status-dibalas {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+    .status-selesai {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    /* WA BUTTON */
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #25d366;
+      color: #ffffff;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .btn-wa:hover {
+      background: #1eb855;
+    }
+
+    /* CODE BOX */
+    .code-box {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      word-break: break-all;
+      position: relative;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+    .empty-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* TOAST */
+    #toastMessage {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #1e293b;
+      color: #ffffff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s ease;
+      z-index: 100;
+    }
+    #toastMessage.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .status-select {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.4rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    .loader {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <div class="brand-logo">P</div>
+        <div class="brand-text">
+          <h1>PERSEBA BARATSAWAH</h1>
+          <p>Database & Web App Controller (Google Apps Script)</p>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-outline btn-sm" onclick="muatDataDashboard()" id="btnRefresh">
+          🔄 Segarkan Data
+        </button>
+        <a href="#" id="linkSpreadsheet" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+          📊 Buka Google Sheets
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div>
+        <div class="hero-badge">⚡ Cloud Database PERSEBA Online</div>
+        <h2 class="hero-title">Portal Pemantauan & Sinkronisasi Website</h2>
+        <p class="hero-desc">
+          Web App ini menghubungkan website profil Dusun Baratsawah dengan Google Sheets secara langsung. Seluruh pesan warga tersimpan rapi dan dapat ditindaklanjuti secara mudah.
+        </p>
+      </div>
+      <div>
+        <button class="btn btn-accent" onclick="inisialisasiDatabaseUlang()">
+          🚀 Jalankan Setup Database
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon green">💬</div>
+        <div>
+          <div class="stat-val" id="statTotalPesan">0</div>
+          <div class="stat-label">Total Pesan Kontak Masuk</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon amber">🔴</div>
+        <div>
+          <div class="stat-val" id="statPesanBaru">0</div>
+          <div class="stat-label">Pesan Baru (Perlu Dibalas)</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue">🔄</div>
+        <div>
+          <div class="stat-val" style="font-size: 1rem; word-break: break-all;" id="statLastSync">Memeriksa...</div>
+          <div class="stat-label">Terakhir Sinkronisasi Data Website</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">🟢</div>
+        <div>
+          <div class="stat-val" style="font-size: 1.1rem; color: #15803d;">Aktif & Siap</div>
+          <div class="stat-label">Status Google Spreadsheet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: PESAN KONTAK MASUK -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📬</span>
+          <span>Daftar Pesan Kontak Masuk (Formulir Website)</span>
+        </div>
+        <div>
+          <input 
+            type="text" 
+            id="filterSearch" 
+            placeholder="Cari nama / pesan..." 
+            oninput="filterPesanTabel()"
+            style="padding: 0.35rem 0.65rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; width: 200px;"
+          />
+        </div>
+      </div>
+      <div class="section-body" style="padding: 0;">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 140px;">Waktu (WIB)</th>
+                <th style="width: 180px;">Nama Pengirim</th>
+                <th style="width: 150px;">Kontak WhatsApp</th>
+                <th>Isi Pesan</th>
+                <th style="width: 130px;">Status</th>
+                <th style="width: 120px;">Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="pesanTableBody">
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <div class="loader" style="width: 24px; height: 24px; border-color: #15803d; border-top-color: transparent;"></div>
+                  <p style="margin-top: 0.5rem;">Memuat data dari Google Sheets...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: URL WEB APP & PETUNJUK -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <span>🔗</span>
+          <span>Informasi Integrasi & Web App URL</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Salin alamat URL halaman ini (yang berakhiran <code>/exec</code>) lalu tempelkan ke <strong>CMS Website PERSEBA &gt; Menu Integrasi Google Sheets</strong>:
+        </p>
+        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+          <input 
+            type="text" 
+            id="currentUrlDisplay" 
+            readonly 
+            style="flex: 1; padding: 0.6rem 0.8rem; font-family: monospace; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc;"
+          />
+          <button class="btn btn-primary" onclick="salinCurrentUrl()">
+            📋 Salin URL
+          </button>
+        </div>
+
+        <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; font-size: 0.825rem; color: #334155;">
+          <strong>💡 Tips Penggunaan:</strong>
+          <ul style="margin-left: 1.25rem; margin-top: 0.35rem;">
+            <li>Setiap ada warga mengirim formulir kontak di website, otomatis masuk ke tabel di atas dan lembar <code>Pesan_Kontak</code> di Google Sheets.</li>
+            <li>Klik tombol WhatsApp hijau pada tabel untuk langsung membuka chat WhatsApp dengan pengirim.</li>
+            <li>Anda dapat mengubah status pesan (Baru / Dibaca / Dibalas / Selesai) langsung dari dropdown status di tabel.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastMessage">Pesan pemberitahuan</div>
+
+  <script>
+    var GLOBAL_PESAN = [];
+
+    // Deteksi URL saat ini
+    window.addEventListener("DOMContentLoaded", function() {
+      var url = window.location.href;
+      var input = document.getElementById("currentUrlDisplay");
+      if (input) input.value = url;
+      muatDataDashboard();
+    });
+
+    function tampilkanToast(pesan) {
+      var toast = document.getElementById("toastMessage");
+      if (!toast) return;
+      toast.textContent = pesan;
+      toast.classList.add("show");
+      setTimeout(function() {
+        toast.classList.remove("show");
+      }, 3500);
+    }
+
+    function salinCurrentUrl() {
+      var input = document.getElementById("currentUrlDisplay");
+      if (!input) return;
+      input.select();
+      navigator.clipboard.writeText(input.value).then(function() {
+        tampilkanToast("📋 Web App URL berhasil disalin!");
+      }).catch(function() {
+        tampilkanToast("Silakan tandai dan salin teks URL secara manual.");
+      });
+    }
+
+    // Mengambil data dari Apps Script via google.script.run
+    function muatDataDashboard() {
+      var btn = document.getElementById("btnRefresh");
+      if (btn) btn.innerHTML = "⏳ Memuat...";
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onSuccessLoad)
+          .withFailureHandler(onFailureLoad)
+          .getWebAppData();
+      } else {
+        // Mode preview standalone (saat dibuka di luar konteks Google Apps Script)
+        setTimeout(function() {
+          var mockData = {
+            spreadsheetName: "Database PERSEBA Dusun Baratsawah",
+            spreadsheetUrl: "https://sheets.google.com",
+            totalPesan: 1,
+            pesanBaru: 1,
+            lastSync: "Hari ini, siap digunakan",
+            pesanList: [
+              {
+                row: 2,
+                waktu: "Hari ini",
+                nama: "Ahmad Fauzi",
+                telp: "081234567890",
+                pesan: "Halo pengurus PERSEBA, selamat atas peluncuran website Dusun Baratsawah!",
+                status: "Baru",
+                catatan: ""
+              }
+            ]
+          };
+          onSuccessLoad(mockData);
+        }, 600);
+      }
+    }
+
+    function onSuccessLoad(res) {
+      var btn = document.getElementById("btnRefresh");
+      if (btn) btn.innerHTML = "🔄 Segarkan Data";
+
+      document.getElementById("statTotalPesan").textContent = res.totalPesan || 0;
+      document.getElementById("statPesanBaru").textContent = res.pesanBaru || 0;
+      document.getElementById("statLastSync").textContent = res.lastSync || "Belum ada";
+
+      if (res.spreadsheetUrl) {
+        var link = document.getElementById("linkSpreadsheet");
+        if (link) link.href = res.spreadsheetUrl;
+      }
+
+      GLOBAL_PESAN = res.pesanList || [];
+      renderTabelPesan(GLOBAL_PESAN);
+      tampilkanToast("✅ Data terbaru berhasil dimuat!");
+    }
+
+    function onFailureLoad(err) {
+      var btn = document.getElementById("btnRefresh");
+      if (btn) btn.innerHTML = "🔄 Segarkan Data";
+      tampilkanToast("⚠️ Gagal mengambil data: " + err.toString());
+    }
+
+    function renderTabelPesan(list) {
+      var tbody = document.getElementById("pesanTableBody");
+      if (!tbody) return;
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p>Belum ada pesan kontak masuk.</p>
+              <p style="font-size: 0.78rem;">Pesan dari formulir website akan tampil otomatis di sini.</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      var html = "";
+      list.forEach(function(item) {
+        var cleanTelp = (item.telp || "").toString().replace(/[^0-9]/g, "");
+        if (cleanTelp.startsWith("0")) {
+          cleanTelp = "62" + cleanTelp.slice(1);
+        }
+
+        var statusClass = "status-baru";
+        var st = (item.status || "Baru").toLowerCase();
+        if (st === "dibaca") statusClass = "status-dibaca";
+        else if (st === "dibalas") statusClass = "status-dibalas";
+        else if (st === "selesai") statusClass = "status-selesai";
+
+        var waButton = cleanTelp ? `
+          <a href="https://wa.me/${cleanTelp}?text=Halo%20${encodeURIComponent(item.nama)},%20kami%20dari%20Pengurus%20PERSEBA%20Baratsawah" target="_blank" rel="noopener" class="btn-wa">
+            <span>💬</span> ${item.telp}
+          </a>
+        ` : item.telp;
+
+        html += `
+          <tr>
+            <td style="font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;">${item.waktu}</td>
+            <td style="font-weight: 700; color: var(--text);">${escapeHtml(item.nama)}</td>
+            <td>${waButton}</td>
+            <td style="max-width: 380px; word-break: break-word;">${escapeHtml(item.pesan)}</td>
+            <td>
+              <select class="status-select" onchange="ubahStatusBaris(${item.row}, this.value)">
+                <option value="Baru" ${item.status === "Baru" ? "selected" : ""}>🔴 Baru</option>
+                <option value="Dibaca" ${item.status === "Dibaca" ? "selected" : ""}>🟡 Dibaca</option>
+                <option value="Dibalas" ${item.status === "Dibalas" ? "selected" : ""}>🔵 Dibalas</option>
+                <option value="Selesai" ${item.status === "Selesai" ? "selected" : ""}>🟢 Selesai</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn btn-outline btn-sm" onclick="ubahStatusBaris(${item.row}, 'Selesai')">
+                ✔️ Selesai
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function filterPesanTabel() {
+      var query = document.getElementById("filterSearch").value.toLowerCase();
+      var filtered = GLOBAL_PESAN.filter(function(item) {
+        return (item.nama && item.nama.toLowerCase().includes(query)) ||
+               (item.pesan && item.pesan.toLowerCase().includes(query)) ||
+               (item.telp && item.telp.includes(query));
+      });
+      renderTabelPesan(filtered);
+    }
+
+    function ubahStatusBaris(row, newStatus) {
+      tampilkanToast("Menyimpan status baris " + row + "...");
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            tampilkanToast("✅ " + res.message);
+            muatDataDashboard();
+          })
+          .withFailureHandler(function(err) {
+            tampilkanToast("⚠️ Gagal: " + err.toString());
+          })
+          .updateStatusPesanDariWeb(row, newStatus);
+      } else {
+        tampilkanToast("✅ Status diubah menjadi " + newStatus);
+      }
+    }
+
+    function inisialisasiDatabaseUlang() {
+      if (!confirm("Jalankan inisialisasi / perbaikan struktur sheet di Google Spreadsheet?")) return;
+      tampilkanToast("🚀 Menginisialisasi spreadsheet...");
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            alert(res.message);
+            muatDataDashboard();
+          })
+          .withFailureHandler(function(err) {
+            alert("Terjadi kendala: " + err.toString());
+          })
+          .panggilSetupDariWeb();
+      } else {
+        alert("Fungsi ini berjalan saat Web App dibuka di Google Apps Script.");
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return "";
+      return text.toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

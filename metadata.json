@@ -1,0 +1,8 @@
+{
+  "name": "Remaja Dusun Baratsawah",
+  "description": "Website resmi Persatuan Remaja Se Baratsawah (PERSEBA) Dusun Baratsawah, Desa Gunungteguh, Sangkapura, Bawean, Gresik.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
